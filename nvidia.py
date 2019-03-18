@@ -2,7 +2,9 @@ from adb import adb_commands
 from adb.sign_pythonrsa import PythonRSASigner
 
 class shield():
+	# Change this to your Nvidia Shield IP address
 	shield_ip_and_port = b'192.168.1.100:5555'
+	
 	buttons = { 
 		'power': 'KEYCODE_POWER',
 		'sleep': 'KEYCODE_SLEEP',
