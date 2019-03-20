@@ -61,7 +61,7 @@ Python class for controlling Nvidia Shield over a network
 <br/>
 &emsp13;&emsp13;&emsp13; <code>adb connect SHIELD:5555 # use the DNS name (or IP address) and Port from the previous step</code><br/><br/>
 &emsp13;&emsp13;&emsp13; <i>A message will pop up on your Shield asking you to confirm the connection.</i><br/>
-&emsp13;&emsp13;&emsp13; <i><code>adbkey</code> and <code>adbkey.pub</code> will be added to the <code>.android</code> directory of your home folder<br/>
+&emsp13;&emsp13;&emsp13; <i>Files <code>adbkey</code> and <code>adbkey.pub</code> will be added to the <code>.android</code> directory of your home folder<br/>
 
 &emsp13;&emsp13;&emsp13; &emsp13;&emsp13;&emsp13; <b>Linux/Mac</b>: <code>~/.android</code><br/>
 &emsp13;&emsp13;&emsp13; &emsp13;&emsp13;&emsp13; <b>Windows</b>: <code>/users/<i>\<username></i>/.android</code><br/><br/>
