@@ -1,10 +1,7 @@
 from adb import adb_commands
 from adb.sign_pythonrsa import PythonRSASigner
 
-class shield():
-	# Change this to your Nvidia Shield IP address
-	shield_ip_and_port = b'192.168.1.100:5555'
-	
+class shield:
 	buttons = { 
 		'power': 'KEYCODE_POWER',
 		'sleep': 'KEYCODE_SLEEP',
@@ -35,7 +32,10 @@ class shield():
 		'games':'com.nvidia.tegrazone3/com.nvidia.tegrazone.leanback.LBMainActivity'
 	}
 
-	def __init__( self ):
+	def __init__( self, ip = b'SHIELD:5555' ):
+		if isinstance( ip, str ):
+			ip = str.encode( ip )
+		self.shield_ip_and_port = ip
 		self.connect()
 
 	def connect( self ):
