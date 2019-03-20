@@ -18,6 +18,14 @@ Python class for controlling Nvidia Shield over a network
 
 <details>
 <summary>
+<b>Android Debugger Bridge (adb) installed on your computer</b>
+</summary>
+<br/>
+&emsp13;&emsp13;&emsp13; Download the install for <a href="https://developer.android.com/studio/releases/platform-tools.html">ADB here</a>.
+</details>
+
+<details>
+<summary>
 <b>Nvidia Shield in Developer Mode with Network Debugging turned on</b>
 </summary>
 <br/>
