@@ -67,6 +67,7 @@ Python class for controlling Nvidia Shield over a network
 &emsp13;&emsp13;&emsp13; &emsp13;&emsp13;&emsp13; <b>Windows</b>: <code>/users/<i>\<username></i>/.android</code><br/><br/>
 &emsp13;&emsp13;&emsp13; Copy these two files to the directory containing <code>nvidia.py</code>
 </details>
+</i>
 
 ## Sample code
 
