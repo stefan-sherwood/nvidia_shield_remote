@@ -46,6 +46,20 @@ Python class for controlling Nvidia Shield over a network
 &emsp13;&emsp13;&emsp13; When you select this option the IP address and port will be shown
 </details>
 
+<details>
+<summary>
+<b>Public and private adb keys</b>
+</summary>
+<br/>
+&emsp13;&emsp13;&emsp13; <code>adb connect SHIELD:5555 # use the DNS name (or IP address) and Port from the previous step</code><br/><br/>
+&emsp13;&emsp13;&emsp13; <i>A message will pop up on your Shield asking you to confirm the connection.</i><br/>
+&emsp13;&emsp13;&emsp13; <i><code>adbkey</code> and <code>adbkey.pub</code> will be added to the <code>.android</code> directory of your home folder<br/>
+
+&emsp13;&emsp13;&emsp13; &emsp13;&emsp13;&emsp13; <b>Linux/Mac</b>: <code>~/.android</code><br/>
+&emsp13;&emsp13;&emsp13; &emsp13;&emsp13;&emsp13; <b>Windows</b>: <code>/users/<i>\<username></i>/.android</code><br/><br/>
+&emsp13;&emsp13;&emsp13; Copy these two files to the directory containing <code>nvidia.py</code>
+</details>
+
 ## Sample code
 
 ```
@@ -56,9 +70,9 @@ device.press( 'home' ) # press the home button
 device.launch( 'hbo' ) # launch HBO Now app
 ```
 
-## USAGE
+## Usage
 
-There are presently two methods:
+<code>nvidia.shield</code> has two methods:
 
 <details>
 <summary>
@@ -73,9 +87,7 @@ There are presently two methods:
 <code>launch( app )</code>
 </summary>
 <br/>
-&emsp13;&emsp13;&emsp13;App is one of:
-
-&emsp13;&emsp13;&emsp13;&emsp13;&emsp13;&emsp13; <code>hbo, prime, music, youtube, ted, games</code>
+&emsp13;&emsp13;&emsp13;App is one of: <code>hbo, prime, music, youtube, ted, games</code>
 </details>
 
 ---
