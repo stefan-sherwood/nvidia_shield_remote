@@ -43,7 +43,8 @@ class shield:
 		self.device = adb_commands.AdbCommands().ConnectDevice( serial=self.shield_ip_and_port, rsa_keys=[ signed_key ] )
 
 	def shell( self, arg ):
-		for i in range( 3 ):
+		# Nvidia disconnects inactive debuggers so we reconnect and retry on failure
+		for i in range(2):
 			try:
 				self.device.Shell( arg )
 				return
@@ -54,11 +55,11 @@ class shield:
 		if button not in self.buttons:
 			return { 'error': f'unknown button "{button}"'}
 
-		self.device.Shell( f'input keyevent {self.buttons[ button ]}' )
+		self.shell( f'input keyevent {self.buttons[ button ]}' )
 
 	def launch( self, app ):
 		if app not in self.apps:
 			return { 'error': f'no such app "{app}"' }
 
 		app_launch_activity = self.apps[ app ]
-		self.device.Shell( f'am start -n {app_launch_activity}')
+		self.shell( f'am start -n {app_launch_activity}')
