@@ -28,8 +28,20 @@ class shield:
 		'prime': 'com.amazon.amazonvideo.livingroom/com.amazon.ignition.IgnitionActivity',
 		'music': 'com.google.android.music/.tv.HomeActivity',
 		'youtube': 'com.google.android.youtube.tv/com.google.android.apps.youtube.tv.activity.ShellActivity',
-		'ted': 'com.ted.android.tv/.view.MainActivity',
-		'games':'com.nvidia.tegrazone3/com.nvidia.tegrazone.leanback.LBMainActivity'
+		'ted':  'com.ted.android.tv/.view.MainActivity',
+                'hulu': 'com.hulu.livingroomplus/.WKFactivity',
+                'netflix': 'com.netflix.ninja/.MainActivity',
+                'youtubetv': 'com.google.android.youtube.tvunplugged/com.google.android.apps.youtube.tvunplugged.activity.MainActivity',
+		'disney': 'com.disney.disneyplus/com.bamtechmedia.dominguez.main.MainActivity',
+                'kodi': 'org.xbmc.kodi/.Splash',
+                'twitch': 'tv.twitch.android.app/tv.twitch.android.apps.TwitchActivity',
+                'plex': 'com.plexapp.android/com.plexapp.plex.activities.SplashActivity',
+		'cbs': 'com.cbs.ott/com.cbs.app.tv.ui.activity.SplashActivity',
+		'pbs': 'com.pbs.video/.ui.main.activities.StartupActivity',
+		'amazonmusic': 'com.amazon.music.tv/.activity.MainActivity',
+		'pandora': 'com.pandora.android.atv/com.pandora.android.MainActivity',
+		'spotify': 'com.spotify.tv.android/.SpotifyTVActivity',
+		'games': 'com.nvidia.tegrazone3/com.nvidia.tegrazone.leanback.LBMainActivity'
 	}
 
 	def __init__( self, ip = b'SHIELD:5555' ):

@@ -96,7 +96,7 @@ device.launch( 'hbo' ) # launch HBO Now app
 <code>launch( app )</code>
 </summary>
 <br/>
-&emsp13;&emsp13;&emsp13;App is one of: <code>hbo, prime, music, youtube, ted, games</code>
+&emsp13;&emsp13;&emsp13;App is one of: <code>hbo, prime, music, youtube, ted, games,hulu,netflix,youtubetv,disney,twitch,plex,kodi,cbs,pbs,amazonmusic,spotify,pandora</code>
 </details>
 
 ---
