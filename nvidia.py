@@ -35,6 +35,7 @@ class shield:
 		'disney': 'com.disney.disneyplus/com.bamtechmedia.dominguez.main.MainActivity',
                 'kodi': 'org.xbmc.kodi/.Splash',
                 'twitch': 'tv.twitch.android.app/tv.twitch.android.apps.TwitchActivity',
+                'vudu': 'air.com.vudu.air.DownloaderTablet/.TvMainActivity',
                 'plex': 'com.plexapp.android/com.plexapp.plex.activities.SplashActivity',
 		'cbs': 'com.cbs.ott/com.cbs.app.tv.ui.activity.SplashActivity',
 		'pbs': 'com.pbs.video/.ui.main.activities.StartupActivity',
