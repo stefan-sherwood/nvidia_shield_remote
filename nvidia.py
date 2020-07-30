@@ -24,30 +24,54 @@ class shield:
 	}
 
 	apps = {
-		'hbo': 'com.hbo.hbonow/com.hbo.go.LaunchActivity',
-		'prime': 'com.amazon.amazonvideo.livingroom/com.amazon.ignition.IgnitionActivity',
-		'music': 'com.google.android.music/.tv.HomeActivity',
-		'youtube': 'com.google.android.youtube.tv/com.google.android.apps.youtube.tv.activity.ShellActivity',
-		'ted':  'com.ted.android.tv/.view.MainActivity',
-                'hulu': 'com.hulu.livingroomplus/.WKFactivity',
-                'netflix': 'com.netflix.ninja/.MainActivity',
-                'youtubetv': 'com.google.android.youtube.tvunplugged/com.google.android.apps.youtube.tvunplugged.activity.MainActivity',
-		'disney': 'com.disney.disneyplus/com.bamtechmedia.dominguez.main.MainActivity',
-                'kodi': 'org.xbmc.kodi/.Splash',
-                'twitch': 'tv.twitch.android.app/tv.twitch.android.apps.TwitchActivity',
-                'vudu': 'air.com.vudu.air.DownloaderTablet/.TvMainActivity',
-                'plex': 'com.plexapp.android/com.plexapp.plex.activities.SplashActivity',
-		'cbs': 'com.cbs.ott/com.cbs.app.tv.ui.activity.SplashActivity',
-		'pbs': 'com.pbs.video/.ui.main.activities.StartupActivity',
-		'amazonmusic': 'com.amazon.music.tv/.activity.MainActivity',
-		'pandora': 'com.pandora.android.atv/com.pandora.android.MainActivity',
-		'spotify': 'com.spotify.tv.android/.SpotifyTVActivity',
-		'games': 'com.nvidia.tegrazone3/com.nvidia.tegrazone.leanback.LBMainActivity'
+		'hbo': 'com.hbo.hbonow',
+		'prime': 'com.amazon.amazonvideo.livingroom',
+		'music': 'com.google.android.music',
+		'youtube': 'com.google.android.youtube.tv',
+		'ted':  'com.ted.android.tv',
+		'hulu': 'com.hulu.livingroomplus',
+		'netflix': 'com.netflix.ninja',
+		'youtubetv': 'com.google.android.youtube.tvunplugged',
+		'disney': 'com.disney.disneyplus',
+		'kodi': 'org.xbmc.kodi',
+		'twitch': 'tv.twitch.android.app',
+		'vudu': 'air.com.vudu.air.DownloaderTablet',
+		'plex': 'com.plexapp.android',
+		'cbs': 'com.cbs.ott',
+		'pbs': 'com.pbs.video',
+		'amazonmusic': 'com.amazon.music.tv',
+		'pandora': 'com.pandora.android.atv',
+		'spotify': 'com.spotify.tv.android',
+		'games': 'com.nvidia.tegrazone3',
+
+	}
+
+	launch_activities = {
+		'hbo': 'com.hbo.go.LaunchActivity',
+		'prime': 'com.amazon.ignition.IgnitionActivity',
+		'music': '.tv.HomeActivity',
+		'youtube': 'com.google.android.apps.youtube.tv.activity.ShellActivity',
+		'ted':  '.view.MainActivity',
+		'hulu': '.WKFactivity',
+		'netflix': '.MainActivity',
+		'youtubetv': 'com.google.android.apps.youtube.tvunplugged.activity.MainActivity',
+		'disney': 'com.bamtechmedia.dominguez.main.MainActivity',
+		'kodi': '.Splash',
+		'twitch': 'tv.twitch.android.apps.TwitchActivity',
+		'vudu': '.TvMainActivity',
+		'plex': 'com.plexapp.plex.activities.SplashActivity',
+		'cbs': 'com.cbs.app.tv.ui.activity.SplashActivity',
+		'pbs': '.ui.main.activities.StartupActivity',
+		'amazonmusic': '.activity.MainActivity',
+		'pandora': 'com.pandora.android.MainActivity',
+		'spotify': '.SpotifyTVActivity',
+		'games': 'com.nvidia.tegrazone.leanback.LBMainActivity'
 	}
 
 	def __init__( self, ip = b'SHIELD:5555' ):
 		if isinstance( ip, str ):
 			ip = str.encode( ip )
+		self.app_packages = { self.apps[key]: key for key in self.apps }
 		self.shield_ip_and_port = ip
 		self.connect()
 
@@ -59,8 +83,8 @@ class shield:
 		# Nvidia disconnects inactive debuggers so we reconnect and retry on failure
 		for i in range(2):
 			try:
-				self.device.Shell( arg )
-				return
+				# Shell() appends a newline so we strip it
+				return self.device.Shell( arg )[:-1]
 			except ConnectionResetError:
 				self.connect()
 
@@ -73,6 +97,20 @@ class shield:
 	def launch( self, app ):
 		if app not in self.apps:
 			return { 'error': f'no such app "{app}"' }
+		if app not in self.launch_activities:
+			return { 'error': f'no launch activity found for app "{app}"' }
 
-		app_launch_activity = self.apps[ app ]
+		app_launch_activity = f'{self.apps[ app ]}/{self.launch_activities[ app ]}'
 		self.shell( f'am start -n {app_launch_activity}')
+
+	def get_current_app( self ):
+		app_activity = self.shell( 'dumpsys window windows | grep -E mCurrentFocus | sed -E "s/.*Window\{(.*)\}/\\1/" | cut -F 3' )
+		app,activity = app_activity.split("/")
+
+		return app, activity, self.app_packages.get(app)
+
+	def type( self, text ):
+		return self.shell( "input text {text}" )
+
+	def get_power( self ):
+		return self.shell( 'dumpsys power 2> /dev/null | grep "mWakefulness=" | cut -d "=" -f 2' )
