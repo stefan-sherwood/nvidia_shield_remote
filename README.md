@@ -1,5 +1,5 @@
 # nvidia_shield_remote
-Python class for controlling Nvidia Shield over a network
+Python class for controlling and querying Nvidia Shield over a network
 
 ## Prerequisites
 <details>
@@ -74,29 +74,68 @@ Python class for controlling Nvidia Shield over a network
 ```
 import nvidia
 device = nvidia.shield( 'SHIELD:5555' ) # device name (or IP address) and port
-device.press( 'power' ) # turn the Shield on or off
+if device.get_power() == 'Asleep':
+	device.press( 'power' ) # wake the Shield
 device.press( 'home' ) # press the home button
 device.launch( 'hbo' ) # launch HBO Now app
 ```
 
 ## Usage
 
-<code>nvidia.shield</code> has two methods:
+<code>nvidia.shield</code> has the following methods:
+
+### <i>Press a remote control button</i>
 
 <details>
 <summary>
 <code>press( button )</code>
 </summary>
-<br/>
-&emsp13;&emsp13;&emsp13; Button is one of: <code>power, sleep, wake, home, back, search, up, down, left, right, center, volume up, volume down, rewind, ff, play/pause, previous, next</code>
+
+&emsp13;&emsp13;&emsp13; <i>button</i> is one of: <code>power, sleep, wake, home, back, search, up, down, left, right, center, volume up, volume down, rewind, ff, play/pause, previous, next</code>
 </details>
+
+### <i>Launch an app (or switch to it if it's already running)</i>
 
 <details>
 <summary>
 <code>launch( app )</code>
 </summary>
-<br/>
-&emsp13;&emsp13;&emsp13;App is one of: <code>hbo, prime, music, youtube, ted, games,hulu,netflix,youtubetv,disney,twitch,plex,kodi,cbs,pbs,amazonmusic,spotify,pandora</code>
+
+&emsp13;&emsp13;&emsp13; <i>app</i> is one of: <code>hbo, prime, music, youtube, ted, games, hulu, netflix, youtubetv, disney, twitch, plex, kodi, cbs, pbs, amazonmusic, spotify, pandora</code>
+</details>
+
+### <i>Get the current power state of the device</i>
+
+<details>
+<summary>
+<code>get_power()</code>
+</summary>
+
+&emsp13;&emsp13;&emsp13; Returns the current power state, usually <i>Awake</i> or <i>Asleep</i>
+</details>
+
+### <i>Get the currently running app</i>
+
+<details>
+<summary>
+<code>get_current_app()</code>
+</summary>
+
+&emsp13;&emsp13;&emsp13; Returns a tuple containing the package name, activity, and app pretty name of the current app
+<br/><br/>
+&emsp13;&emsp13;&emsp13; <b><u>Note</u></b>: If the app is not a known app the app pretty name will be `None`. See <i>launch()</i> for a list of known apps.
+</details>
+
+### <i>Type text (simulate a keyboard)</i>
+
+<details>
+<summary>
+<code>type( text )</code>
+</summary>
+
+&emsp13;&emsp13;&emsp13; Type text into the current app or text field.
+<br/><br/>
+&emsp13;&emsp13;&emsp13; <b><u>Note</u></b>: This presently only works in the top-level search, not in any apps, so it is of very limited use.
 </details>
 
 ---
