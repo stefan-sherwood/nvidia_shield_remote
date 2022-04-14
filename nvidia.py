@@ -42,8 +42,7 @@ class shield:
 		'amazonmusic': 'com.amazon.music.tv',
 		'pandora': 'com.pandora.android.atv',
 		'spotify': 'com.spotify.tv.android',
-		'games': 'com.nvidia.tegrazone3',
-
+		'games': 'com.nvidia.tegrazone3'
 	}
 
 	launch_activities = {
@@ -85,7 +84,7 @@ class shield:
 			try:
 				# Shell() appends a newline so we strip it
 				return self.device.Shell( arg )[:-1]
-			except ConnectionResetError:
+			except ( ConnectionResetError, AttributeError ):
 				self.connect()
 
 	def press( self, button ):
@@ -97,20 +96,38 @@ class shield:
 	def launch( self, app ):
 		if app not in self.apps:
 			return { 'error': f'no such app "{app}"' }
-		if app not in self.launch_activities:
+		activity = self._get_launch_activity( app )
+		if not activity:
 			return { 'error': f'no launch activity found for app "{app}"' }
 
-		app_launch_activity = f'{self.apps[ app ]}/{self.launch_activities[ app ]}'
-		self.shell( f'am start -n {app_launch_activity}')
+		app_launch_activity = f'{self.apps[ app ]}/{activity}'
+		return self.shell( f'am start -n {app_launch_activity}')
 
 	def get_current_app( self ):
 		app_activity = self.shell( 'dumpsys window windows | grep -E mCurrentFocus | sed -E "s/.*Window\{(.*)\}/\\1/" | cut -F 3' )
-		app,activity = app_activity.split("/")
-
-		return app, activity, self.app_packages.get(app)
+		app, _, activity = app_activity.partition("/")
+		return app, activity or None, self.app_packages.get(app)
 
 	def type( self, text ):
 		return self.shell( "input text {text}" )
 
 	def get_power( self ):
 		return self.shell( 'dumpsys power 2> /dev/null | grep "mWakefulness=" | cut -d "=" -f 2' )
+
+	def get_packages( self ):
+		return self.shell( 'pm list packages -e -3 | cut -d":" -f2-' ).splitlines()
+
+	def add_app( self, app, package ):
+		self.apps[ app ] = package
+
+	def _get_launch_activity( self, app ):
+		if app in self.launch_activities:
+			return self.launch_activities[ app ]
+
+		package = self.apps.get( app, None )
+
+		if app and package:
+			activity = self.shell( f'cmd package resolve-activity --brief {package} | tail -n 1 | cut -d"/" -f2-' )
+			if activity and activity != 'No activity found':
+				self.launch_activities[ app ] = activity
+				return activity
