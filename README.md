@@ -71,13 +71,21 @@ Python class for controlling and querying Nvidia Shield over a network
 
 ## Sample code
 
-```
+```python
 import nvidia
 device = nvidia.shield( 'SHIELD:5555' ) # device name (or IP address) and port
+
 if device.get_power() == 'Asleep':
 	device.press( 'power' ) # wake the Shield
 device.press( 'home' ) # press the home button
 device.launch( 'hbo' ) # launch HBO Now app
+	
+device.get_current_app()
+#	 -------> ('com.zynga.boggle', 'com.zynga.scramble.ui.game.ScrambleGameActivity', None)
+device.add_app( 'boggle', 'com.zynga.boggle' )
+device.launch( 'boggle' )
+device.get_current_app()
+#	 -------> ('com.zynga.boggle', 'com.zynga.scramble.ui.game.ScrambleGameActivity', 'boggle')
 ```
 
 ## Usage
@@ -101,7 +109,7 @@ device.launch( 'hbo' ) # launch HBO Now app
 <code>launch( app )</code>
 </summary>
 
-&emsp13;&emsp13;&emsp13; <i>app</i> is one of: <code>hbo, prime, music, youtube, ted, games, hulu, netflix, youtubetv, disney, twitch, plex, kodi, cbs, pbs, amazonmusic, spotify, pandora</code>
+&emsp13;&emsp13;&emsp13; <i>app</i> is one of: <code>hbo, prime, music, youtube, ted, games, hulu, netflix, youtubetv, disney, twitch, plex, kodi, cbs, pbs, amazonmusic, spotify, pandora</code> <b>or</b> any app added with <code>add_app()</code>
 </details>
 
 ### <i>Get the current power state of the device</i>
@@ -124,6 +132,30 @@ device.launch( 'hbo' ) # launch HBO Now app
 &emsp13;&emsp13;&emsp13; Returns a tuple containing the package name, activity, and app pretty name of the current app
 <br/><br/>
 &emsp13;&emsp13;&emsp13; <b><u>Note</u></b>: If the app is not a known app the app pretty name will be `None`. See <i>launch()</i> for a list of known apps.
+</details>
+
+### <i>Get installed app package names</i>
+
+<details>
+<summary>
+<code>get_packages()</code>
+</summary>
+
+&emsp13;&emsp13;&emsp13; Returns a list of the package names of all installed apps
+</details>
+
+### <i>Add app to launchable apps</i>
+
+<details>
+<summary>
+<code>add_app( app, package )</code>
+</summary>
+
+&emsp13;&emsp13;&emsp13; <i>app</i> is a string to be used in subsequent calls to <code>launch</code>
+<br/>
+&emsp13;&emsp13;&emsp13; <i>package</i> is the package name of the app, e.g. <code>com.hbo.hbonow</code>
+<br/><br/>
+&emsp13;&emsp13;&emsp13; <b><u>Note</u></b>: You can get the current app's package name with <code>get_current_app()</code> or a list of package names with <code>get_packages()</code>
 </details>
 
 ### <i>Type text (simulate a keyboard)</i>
