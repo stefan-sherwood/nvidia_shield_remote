@@ -119,6 +119,7 @@ class shield:
 
 	def add_app( self, app, package ):
 		self.apps[ app ] = package
+		self.app_packages[ package ] = app
 
 	def _get_launch_activity( self, app ):
 		if app in self.launch_activities:
